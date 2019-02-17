@@ -1,0 +1,102 @@
+﻿@model GroupC02_SMSC.Models.AllFee
+@{
+    Layout = "~/Views/Shared/_AccountantLayout.cshtml";
+}
+<div class="container">
+    <br />
+    @if (TempData["FeeMessage"] != null)
+    {
+        <p class="alert alert-success" id="successMessage">@TempData["FeeMessage"] <a class="btn btn-success" href="/AllFee/FeeList">See Fee List</a></p>
+    }
+    <form asp-controller="AllFee" asp-action="Add" method="post">
+        @Html.AntiForgeryToken()
+        <div class="col-xs-offset-0 col-xs-4">
+            <h3><span class="label label-info">Provide Following Details</span></h3>
+
+            <div class="form-group">
+                <br />
+                <label asp-for="ClassID">Class Name</label>
+                <select asp-for="ClassID" class="form-control" asp-items="@(new SelectList(string.Empty, "ClassID", "ClassName"))"></select>
+                <span asp-validation-for="ClassID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FeeName">Fee Name</label>
+                <input asp-for="FeeName" class="form-control" />
+                <span asp-validation-for="FeeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FeeAmount">Amount</label>
+                <input asp-for="FeeAmount" class="form-control" />
+                <span asp-validation-for="FeeAmount" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FeeTimeID">Fee Time</label>
+                <select asp-for="FeeTimeID" class="form-control" asp-items="@(new SelectList(string.Empty, "FeeTimeID", "FeeTimeName"))"></select>
+                <span asp-validation-for="FeeTimeID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+
+                <input type="submit" id="btnBookingEvent" class="btn btn-success" value="Submit" />
+
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+
+
+         $.getJSON('@Url.Content("~/")' + "api/AddClassData", function (data)
+        {
+            var items = '';
+            items += "<option value='" + "" + "'>" + "----Select----" + "</option>";
+            $("#ClassID").empty();
+            $.each(data, function (i, subcategory)
+            {
+                items += "<option value='" + subcategory.ClassID + "'>" + subcategory.ClassName + "</option>";
+            });
+            $('#ClassID').html(items);
+
+            if ('@Model.ClassID' !='')
+            {
+                   $('#ClassID').val('@Model.ClassID');
+            }
+        });
+
+         $.getJSON('@Url.Content("~/")' + "api/FeeTimeData", function (data)
+        {
+            var items = '';
+            items += "<option value='" + "" + "'>" + "----Select----" + "</option>";
+            $("#FeeTimeID").empty();
+            $.each(data, function (i, subcategory)
+            {
+                items += "<option value='" + subcategory.FeeTimeID + "'>" + subcategory.FeeTimeName + "</option>";
+            });
+            $('#FeeTimeID').html(items);
+
+            if ('@Model.FeeTimeID' !='')
+            {
+                   $('#FeeTimeID').val('@Model.FeeTimeID');
+            }
+        });
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+</script>
+
+

@@ -1,0 +1,120 @@
+﻿@model GroupC02_SMSC.Models.Registration
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    @if (TempData["FlowerUpdateMessage"] != null)
+    {
+        <p class="alert alert-success" id="successMessage">@TempData["FlowerUpdateMessage"]</p>
+    }
+        <div class="container">
+            <form method="post" enctype="multipart/form-data" asp-controller="UsersProfiles" asp-action="Edit">
+                <div class="col-xs-offset-0 col-xs-4">
+                    <input asp-for="ID" type="hidden" />
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary()
+                    <h3><span class="label label-info">Edit Flower</span></h3>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label class="control-label" asp-for="Name">Name</label>
+                            <input asp-for="Name" type="text" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label" asp-for="Mobileno">Mobileno</label>
+                            <input asp-for="Mobileno" maxlength="10" name="Mobileno" onkeydown="return OnlyNumeric(this);" type="text" class="form-control" />
+                            <span asp-validation-for="Mobileno" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label" asp-for="Address">Address</label>
+                            <input asp-for="Address" type="text" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label class="control-label" asp-for="EmailID">EmailID</label>
+                            <input asp-for="EmailID" type="text" class="form-control" />
+                            <span asp-validation-for="EmailID" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4">
+
+                            <label class="control-label" asp-for="Gender">Gender</label>
+                            <br />
+                            <input asp-for="Gender" type="radio" value="M" /> @Html.Label("", "Male")
+                            <input asp-for="Gender" type="radio" value="F" />@Html.Label("", "Female")
+                            <br />
+                            <span asp-validation-for="Gender" class="text-danger"></span>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="row">
+
+
+                        <div class="col-lg-4">
+                            <label class="control-label" asp-for="Birthdate">Birthdate</label>
+                            <input asp-for="Birthdate" id="Birthdate" type="text" class="form-control" />
+                            <span asp-validation-for="Birthdate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label class="control-label" asp-for="Username">Username</label>
+                            <input asp-for="Username" onblur="CheckUsernameExists();" type="text" class="form-control" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label" asp-for="Password">Password</label>
+                            <input asp-for="Password" type="password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="control-label" asp-for="ConfirmPassword">ConfirmPassword</label>
+                            <input asp-for="ConfirmPassword" type="password" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <input id="Submit" type="submit" class="btn btn-success" value="Update" />
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="/AllFlower/ViewAllFlowers">Show All Flowers</a>
+
+                    </div>
+
+                </div>
+            </form>
+
+
+
+            <script type="text/javascript">
+        function CheckFlowerNameExists()
+    {
+            var url = '@Url.Content("~/")' + "Equipment/CheckFlowerNameExists";
+            var source = "#FlowerName";
+            $.post(url, { FlowerName: $(source).val() },
+            function (data)
+                {
+                    if (data)
+                    {
+                        $(source).val('');
+                        alert("Flower Name Already Used try unique one!");
+                    }
+                    else
+                    {
+                    }
+                });
+    }
+            </script>
+
+        </div>
+</div>

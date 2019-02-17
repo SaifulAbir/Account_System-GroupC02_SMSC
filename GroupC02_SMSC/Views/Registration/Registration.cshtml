@@ -1,0 +1,306 @@
+﻿@model GroupC02_SMSC.Models.Registration
+@{
+    Layout = "~/Views/Shared/_LayoutAll.cshtml";
+}
+<div class="container">
+    <br />
+    <div class="col-sm-8 col-sm-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-image:none;background: #9400D3; color: #fff;">
+                <h3 class="panel-title">Register</h3>
+            </div>
+            <div class="panel-body">
+
+                @if (TempData["MessageRegistration"] != null)
+                {
+                    <p class="alert alert-success" id="successMessage">@TempData["MessageRegistration"] <a class="btn btn-success" href="/Login/Login">Go To Sign in </a></p>
+                }
+                @Html.ValidationSummary()
+                @Html.ValidationSummary(true)
+                    <form method="post" asp-controller="Registration" asp-action="Registration">
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <label class="control-label" asp-for="Name">Name</label>
+                                <input asp-for="Name" type="text" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="col-lg-6">
+
+                                <label class="control-label" asp-for="Mobileno">Mobile No</label>
+                                <input asp-for="Mobileno" maxlength="10" name="Mobileno" onkeydown="return OnlyNumeric(this);" type="text" class="form-control" />
+                                <span asp-validation-for="Mobileno" class="text-danger"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <br />
+                                <label class="control-label" asp-for="EmailID">Email ID</label>
+                                <input asp-for="EmailID" type="text" class="form-control" />
+                                <span asp-validation-for="EmailID" class="text-danger"></span>
+                            </div>
+                            <div class="col-lg-6">
+                                <br />
+                                <label class="control-label" asp-for="Gender">Gender</label>
+                                <br />
+                                <input asp-for="Gender" type="radio" value="M" /> @Html.Label("", "Male")
+                                <input asp-for="Gender" type="radio" value="F" />@Html.Label("", "Female")
+                                <br />
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <br />
+                                <label class="control-label" asp-for="Address">Address</label>
+                                <input asp-for="Address" type="text" class="form-control" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                            <div class="col-lg-6">
+                                <br />
+                                <label class="control-label" asp-for="Password">Password</label>
+                                <input asp-for="Password" type="password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <br />
+                                <label class="control-label" asp-for="Username">Username</label>
+                                <input asp-for="Username" onblur="CheckUsernameExists();" type="text" class="form-control" />
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <br />
+                                <label class="control-label" asp-for="ConfirmPassword">Confirm Password</label>
+                                <input asp-for="ConfirmPassword" type="password" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <br />
+                                <label class="control-label" asp-for="Birthdate">Birthdate</label>
+                                <input asp-for="Birthdate" id="Birthdate" type="text" class="form-control" />
+                                <span asp-validation-for="Birthdate" class="text-danger"></span>
+                            </div>
+                            <div class="col-lg-6">
+                                <br />
+                                <label asp-for="RoleID">Role</label>
+                                <select asp-for="RoleID" class="form-control" id="RoleID" asp-items="@(new SelectList(string.Empty, "RoleID", "Rolename"))"></select>
+                                <span asp-validation-for="RoleID" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-lg-6">
+                                <br />
+
+                                <select asp-for="ClassID" class="form-control" id="ClassID" asp-items="@(new SelectList(string.Empty, "ClassID", "ClassName"))"></select>
+                                <span asp-validation-for="ClassID" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <br />
+
+                                <select asp-for="DesignationID" class="form-control" id="DesignationID" asp-items="@(new SelectList(string.Empty, "DesignationID", "DesignationName"))"></select>
+                                <span asp-validation-for="DesignationID" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <br />
+                                <input id="Submit1" type="submit" class="btn btn-primary" value="Register" />
+                                <a class="btn btn-success" href="/Login/Login">Go To Sign in </a>
+                            </div>
+
+
+                        </div>
+                    </form>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function ()
+    {
+
+      @if (@Model.RoleID == null || Model.RoleID != 2)
+        {
+           <text>
+        $("#ClassID").hide();
+        </text>
+
+
+      }else
+      {
+            <text>
+        $("#ClassID").show();
+        </text>
+
+       }
+
+        @if (@Model.RoleID == null || Model.RoleID != 3)
+        {
+           <text>
+        $("#DesignationID").hide();
+        </text>
+
+
+      }
+      else
+      {
+            <text>
+        $("#DesignationID").show();
+        </text>
+
+       }
+
+
+        $.getJSON('@Url.Content("~/")' + "api/RolesData", function (data)
+        {
+          var items = '';
+          items += "<option value='" + "" + "'>" + "----Select----" + "</option>";
+            $("#RoleID").empty();
+            $.each(data, function (i, subcategory)
+            {
+              items += "<option value='" + subcategory.RoleID + "'>" + subcategory.Rolename + "</option>";
+          });
+            $('#RoleID').html(items);
+
+          if ('@Model.RoleID' !='')
+          {
+                   $('#RoleID').val('@Model.RoleID');
+          }
+      });
+
+        $('#RoleID').change(function () {
+            var value = $(this).val();
+            if (value == '2') {
+                $('#ClassID').show();
+
+            } 
+            else {
+                $('#ClassID').hide();
+                
+            }
+        });
+        $('#RoleID').change(function () {
+            var value = $(this).val();
+            if (value == '3') {
+                $('#DesignationID').show();
+
+            }
+            else {
+               
+                $('#DesignationID').hide();
+            }
+        });
+
+        $.getJSON('@Url.Content("~/")' + "api/AddClassData", function (data)
+        {
+            var items = '';
+            items += "<option value='" + "" + "'>" + "----Select----" + "</option>";
+            $("#ClassID").empty();
+            $.each(data, function (i, subcategory)
+            {
+                items += "<option value='" + subcategory.ClassID + "'>" + subcategory.ClassName + "</option>";
+            });
+            $('#ClassID').html(items);
+
+            if ('@Model.ClassID' !='')
+            {
+                   $('#ClassID').val('@Model.ClassID');
+            }
+        });
+
+         $.getJSON('@Url.Content("~/")' + "api/DesignationData", function (data)
+        {
+            var items = '';
+            items += "<option value='" + "" + "'>" + "----Select----" + "</option>";
+             $("#DesignationID").empty();
+            $.each(data, function (i, subcategory)
+            {
+                items += "<option value='" + subcategory.DesignationID + "'>" + subcategory.DesignationName + "</option>";
+            });
+             $('#DesignationID').html(items);
+
+            if ('@Model.DesignationID' !='')
+            {
+                $('#DesignationID').val('@Model.DesignationID');
+            }
+        });
+
+        $("#Birthdate").datepicker
+            ({
+                dateFormat: "yy-mm-dd",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+100",
+                onSelect: function (date) {
+                    var dob = new Date(date);
+                    var today = new Date();
+
+                    if (dob.getFullYear() + 18 < today.getFullYear()) {
+
+                    }
+                    else {
+                        $("#Birthdate").val('');
+                        alert("You are not eligible for Registration");
+                    }
+                }
+            });
+    });
+
+    function OnlyNumeric(evt)
+    {
+        var charCode = (evt.which) ? evt.which : evt.keyCode
+        if ((charCode < 48 || charCode > 57))
+        {
+            if (charCode == 8 || charCode == 46 || charCode == 0)
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    function CheckUsernameExists()
+    {
+        var url = '@Url.Content("~/")' + "Registration/CheckUserNameExists";
+        var source = "#Username";
+        $.post(url, { Username: $(source).val() }, function (data)
+                {
+                    if (data)
+                    {
+                        $(source).val('');
+                        alert("Username Already Used try unique one!");
+                    }
+                    else
+                    {
+
+                    }
+                });
+    }
+</script>

@@ -1,0 +1,112 @@
+﻿@model GroupC02_SMSC.Models.StudentPayment
+@{
+    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+}
+<div class="container">
+    <br />
+    @if (TempData["PaymentMessage"] != null)
+    {
+        <p class="alert alert-success" id="successMessage">@TempData["PaymentMessage"] <a class="btn btn-success" href="/Login/Login">Go To Sign in </a></p>
+    }
+    <form asp-controller="StudentPayment" asp-action="StudentPayment" method="post">
+        @Html.AntiForgeryToken()
+        <div class="col-xs-offset-0 col-xs-4">
+            <h3><span class="label label-info">Provide Following Details</span></h3>
+
+            <div class="form-group">
+                <br />
+                <label asp-for="FeeID">Fee</label>
+                <select asp-for="FeeID" class="form-control" asp-items="@(new SelectList(string.Empty, "FeeID", "FeeName"))"></select>
+                <span asp-validation-for="FeeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CardNum">Card Number</label>
+                <input asp-for="CardNum" class="form-control" />
+                <span asp-validation-for="CardNum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pin">Pin</label>
+                <input asp-for="Pin" class="form-control" />
+                <span asp-validation-for="Pin" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Amount">Amount</label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" asp-for="PaymentDate">Date Of Payment</label>
+                <input asp-for="PaymentDate" id="BookingDate" type="text" class="form-control" />
+                <span asp-validation-for="PaymentDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                <input type="submit" id="btnBookingEvent" class="btn btn-success" value="Submit" />
+
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+
+
+         $.getJSON('@Url.Content("~/")' + "api/AllFeeData", function (data)
+        {
+            var items = '';
+            items += "<option value='" + "" + "'>" + "----Select----" + "</option>";
+            $("#FeeID").empty();
+            $.each(data, function (i, subcategory)
+            {
+                items += "<option value='" + subcategory.FeeID + "'>" + subcategory.FeeName + "</option>";
+            });
+            $('#FeeID').html(items);
+
+            if ('@Model.FeeID' !='')
+            {
+                   $('#FeeID').val('@Model.FeeID');
+            }
+        });
+
+         $("#PaymentDate").datepicker
+             ({
+            dateFormat: "yy-mm-dd",
+                 changeMonth: true,
+                 changeYear: true,
+                 yearRange: "-100:+100",
+                 minDate:7,
+                 onSelect: function (date)
+                 {
+                var PaymentDate = new Date(date);
+                var today = new Date();
+
+                if (Date.parse(PaymentDate) == Date.parse(today))
+                //if (BookingDate == today)
+                {
+                         $("#PaymentDate").val('');
+                    alert("Cannot Conduct Event Today itself");
+                }
+                else {
+
+                }
+            }
+        });
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+</script>
+

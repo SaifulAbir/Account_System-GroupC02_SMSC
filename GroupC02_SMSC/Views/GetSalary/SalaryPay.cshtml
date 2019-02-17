@@ -1,0 +1,43 @@
+﻿@model GroupC02_SMSC.Models.DesignationVM
+
+@{
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+<div class="container">
+    <br />
+    @if (TempData["CashOutMessage"] != null)
+    {
+        <p class="alert alert-success" id="successMessage">@TempData["CashOutMessage"] <a class="btn btn-success" href="/Login/Login">See CashOut List </a></p>
+    }
+    <form asp-controller="GetSalary" asp-action="SalaryPay" method="post">
+        @Html.AntiForgeryToken()
+        <div class="col-xs-offset-0 col-xs-4">
+            <h3><span class="label label-info">Your Salary Details</span></h3>
+
+            
+            <div class="form-group">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" readonly="readonly" type="text" class="form-control" />
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="DesignationName">Designation</label>
+                <input asp-for="DesignationName" readonly="readonly" type="text" class="form-control" />
+                
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Salary">Salary</label>
+                <input asp-for="Salary" readonly="readonly" type="text" class="form-control" />
+                
+            </div>
+            
+            <div class="form-group">
+
+                <input type="submit" id="btnBookingEvent" class="btn btn-success" value="Get Salary" />
+
+            </div>
+        </div>
+    </form>
+
+</div>

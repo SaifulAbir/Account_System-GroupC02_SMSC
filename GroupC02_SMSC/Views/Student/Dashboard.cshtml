@@ -1,0 +1,56 @@
+﻿@model GroupC02_SMSC.Models.AllPaymentsByStudent
+@{
+    Layout = "~/Views/Shared/_LayoutStudent.cshtml";
+}
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-lg-offset-4">
+            <h2><span class="label label-info">Your Payment Status For @Model.Current_year Session</span></h2>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+            <div>
+                <span class="count-name-new">From <b>@Model.First_date</b> To <b>@DateTime.Now.ToString("dd MMMM yyyy")</b> Total Paid Amount.</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div>
+                <span class="count-name-new">Your Total Payable Amount For <b>@Model.Current_year</b> Session.</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div>
+                <span class="count-name-new">Total Due Amount Till <b>@DateTime.Now.ToString("dd MMMM yyyy")</b>. </span>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card-counter primary">
+                <i class="fa fa-check-circle"></i>
+                <span class="count-numbers">Tk. @Model.TotalAmount</span>
+                <span class="count-name">Total Paid Amount.</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card-counter danger">
+                <i class="fa fa-credit-card"></i>
+                <span class="count-numbers">Tk. @Model.TotalPayableAmount</span>
+                <span class="count-name">Total Payable Amount.</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card-counter success">
+                <i class="fa fa-minus-circle"></i>
+                <span class="count-numbers">Tk. @Model.TotalDueAmount</span>
+                <span class="count-name">Total Due Amount.</span>
+            </div>
+        </div>
+        
+    </div>
+</div>
