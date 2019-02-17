@@ -1,3 +1,7 @@
+*.cs linguist-detectable=true
+*.css linguist-detectable=false
+*.html linguist-detectable=false
+
 ###############################################################################
 # Set default behavior to automatically normalize line endings.
 ###############################################################################
@@ -11,9 +15,7 @@
 # Note: This is only used by command line
 ###############################################################################
 #*.cs     diff=csharp
-#*.cs linguist-detectable=true
-#*.css linguist-detectable=false
-#*.html linguist-detectable=false
+
 ###############################################################################
 # Set the merge driver for project and solution files
 #
